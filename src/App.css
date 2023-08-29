@@ -1,38 +1,277 @@
-.App {
-  text-align: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.error {
+    color: #C20302;
+    font-weight: 600;
+}
+.main-heading {
+    font-size: 20px;
+}
+.form-wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form-wrap .form-box {
+    width: 40%;
+    padding: 30px;
+}
+.form-wrap .form-box .form-control {
+    height: 50px;
+    margin-bottom: 16px;
+    border:1px solid #bbbabb;
+    padding-left: 16px;
+    width: 100%;
+    font-size: 14px;
+    border-radius: 6px;
+}
+.form-wrap .form-box .form-control:focus{
+    outline: 0;
+}
+.btn {
+    cursor: pointer;
+    border: 0;
+    font-size: 16px;
+    text-transform: capitalize;
+    border-radius: 6px;
+}
+.btn-primary {
+    background-color: #642166 !important;
+    color: #ffffff;
+    border: 0 !important;
+}
+.form-wrap .form-box .btn {
+    width: 100%;
+    height: 50px;
+    font-weight: 600;
+}
+/*Start Design For Landing page*/
+.landing-page-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+.user-profile-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-box {
+    width: 40%;
+    padding: 40px;
+    background-color: #ededed;
+    border-radius: 10px;
+    position: relative;
+}
+.profile-box div {
+    height:  40PX;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.user-profile-popup span {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 600;
+}
+.user-profile-popup .edit-icon{
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    color: #000000;
+    cursor: pointer;
+    font-size: 20px;
+}   
+.landing-page-section .header-wrap {
+    height: 40px;
+    background-color: #642166;
+    display: flex;
+    align-items: center;
+}
+.landing-page-section .header-wrap .left{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+   padding-left: 16px;
+
+}
+.landing-page-section .header-wrap .left span {
+
+  
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.landing-page-section .header-wrap .center {
+    width: 60%;
+}
+.landing-page-section .header-wrap .center .form-control {
+    height: 30px;
+    padding-left: 16px;
+    width: 100%;
+}
+.landing-page-section .header-wrap .center .form-control:focus {
+    outline: 0;
+}
+.landing-page-section .header-wrap .right {
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 600;
+}
+.chat-section {
+    display: flex;
+}
+.chat-section .sidebar {
+    width: 20%;
+    background-color: #642166;
+    border-top: 1px solid #ffffff;
+    height: calc(100vh - 40px);
+    position: relative;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.chat-section .sidebar .logout {
+    width: 213px;
+    position: fixed;
+    bottom: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.chat-section .sidebar .logout button {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    color: #642166;
+    font-weight: 600;
+    font-size: 16px;
+    border: 0;
+    text-align: center;
+    cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+.chat-section .sidebar > .username{
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    align-items: center;
+    color: #ffffff;
+    cursor: pointer;
+}
+.chat-section .sidebar .group-parent {
+    padding: 16px;
+}
+.chat-section .sidebar .group {
+    margin-bottom: 16px;
+}
+.chat-section .sidebar .group .group-heading p{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+.chat-section .sidebar .group .group-heading p span {
+    font-size: 24px;
+    margin-right: 0px;
+}
+.chat-section .sidebar .group .group-list {
+    display: none;
+}
+.chat-section .sidebar .group .group-list.show {
+    display: block;
+}
+.chat-section .sidebar .group .group-list .group-name {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    margin-bottom: 2px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.chat-section .sidebar .group .group-list .group-name .icon span {
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+
+.chat-section .chat-body {
+    width: 100%;
+}
+.chat-header {
+    width: 100%;
+    height: 50px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ededed;
+}
+.chat-header .img {
+    width: 30px;
+    height: 30px;
+    margin-right: 16px;
+}
+.chat-header .img img {
+    width: 100%;
+    height: 100%;
+}
+.chat-header .text {
+    font-weight: 600;
+}
+.chat-footer {
+    width: calc(100% - 215px);
+    position: fixed;
+    left: 230px;
+    bottom: 16px;
+    display: flex;
+    
+}
+.chat-footer .input-chat {
+    width: 95%;
+
+}
+.chat-footer .input-chat .form-control {
+    height: 50px;
+    margin-bottom: 16px;
+    border:1px solid #bbbabb;
+    padding-left: 16px;
+    width: 100%;
+    font-size: 14px;
+    border-radius: 6px;
+}
+.chat-footer .input-chat .form-control:focus {
+    outline: 0;
+}
+.send-button {
+    position: absolute;
+    right: 60px;
+    top: 16px;
+    cursor: pointer;
 }
