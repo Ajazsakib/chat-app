@@ -7,13 +7,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfileDetailAsync } from '../features/user/userSlice';
 import axios from 'axios';
 import { getProfileSuccess } from '../features/user/userSlice';
-const Index = () => {
+import CreateGroupPopup from '../components/group/CreateGroupPopup';
+import { updateProfileDetailAsync } from '../features/user/userSlice';
+import UpdateUserPopup from '../components/user/UpdateUserPopup';
+import CreateUserPopup from '../components/user/CreateUserPopup';
+const Index = () =>
+{
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   // const [userProfile, setUserprofile] = useState({});
   const [showprofilePopup, setShowProfilePopup] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const userProfile = useSelector((state) => state.user.userProfile);
+
+  const showGroupPopup = useSelector((state) =>
+  {
+    return state.group.showCreateGroupPopup
+  })
+
+  const showUserPopup = useSelector((state) =>
+  {
+    return state.userChat.showUserCreatePopup
+  })
 
   const [updateForm, setUpdateform] = useState({
     email: userProfile?.email || '',
@@ -22,13 +37,15 @@ const Index = () => {
 
   const dispatch = useDispatch();
 
-  const renderPage = async () => {
+  const renderPage = async () =>
+  {
     if (!token) {
       navigate('/login');
     }
   };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     renderPage();
   }, []);
 
@@ -45,31 +62,37 @@ const Index = () => {
   //   setProfileUser(res.data.user);
   // };
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     dispatch(getProfileDetailAsync(token));
     dispatch(getProfileSuccess());
   }, [token, dispatch]);
 
-  const openProfilePopup = () => {
+  const openProfilePopup = () =>
+  {
     setShowProfilePopup(true);
   };
 
-  const closeProfilePopup = () => {
+  const closeProfilePopup = () =>
+  {
     setShowProfilePopup(false);
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = () =>
+  {
     setEditMode(true);
   };
 
-  const handleProfileChange = (e) => {
+  const handleProfileChange = (e) =>
+  {
     setUpdateform((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
   console.log(userProfile, 'userProfile');
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (userProfile?.email || userProfile?.phoneNumber) {
       setUpdateform({
         email: userProfile?.email || '',
@@ -78,20 +101,13 @@ const Index = () => {
     }
   }, [userProfile]);
 
-  const handleUpdateClick = async () => {
+  const handleUpdateClick = async () =>
+  {
     // Perform update logic, e.g., update the user profile on the server
-    const res = await axios.post(
-      'https://demo-react-ugyr.onrender.com/api/user/update_user',
-      updateForm,
-      {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJpYXQiOjE2OTMzMDY0MTAsImV4cCI6MTY5MzMxMDAxMH0.oLYhG-zwncRGHQw9Hsj7fdSvb1YKmUdXLvrvx1b0nH8`,
-        },
-      }
-    );
+    dispatch(updateProfileDetailAsync(updateForm))
     setEditMode(false);
     setShowProfilePopup(false);
-    console.log(res, 'update');
+
   };
 
   return (
@@ -125,54 +141,23 @@ const Index = () => {
           <ChatFooter />
         </div>
       </div>
-      {showprofilePopup && (
-        <div className="user-profile-popup">
-          <div className="profile-box">
-            <div className="email">
-              <input
-                type="text"
-                className="form-control"
-                value={updateForm?.email}
-                disabled={!editMode}
-                name="email"
-                onChange={handleProfileChange}
-              />
-            </div>
-            <div className="phoneNumber">
-              <input
-                type="text"
-                className="form-control"
-                value={updateForm?.phoneNumber}
-                disabled={!editMode}
-                name="phoneNumber"
-                onChange={handleProfileChange}
-              />
-            </div>
-            <div className="update-button">
-              <button
-                className="btn btn-primary"
-                style={{ width: '100%' }}
-                onClick={handleUpdateClick}
-              >
-                Update
-              </button>
-            </div>
+      {showprofilePopup &&
+        <UpdateUserPopup
+          updateForm={updateForm}
+          editMode={editMode}
+          handleProfileChange={handleProfileChange}
+          handleUpdateClick={handleUpdateClick}
+          handleEditClick={handleEditClick}
+          closeProfilePopup={closeProfilePopup}
+        />}
 
-            <span
-              class="material-symbols-outlined edit-icon"
-              onClick={handleEditClick}
-            >
-              border_color
-            </span>
-          </div>
-          <span
-            className="material-symbols-outlined"
-            onClick={closeProfilePopup}
-          >
-            close
-          </span>
-        </div>
-      )}
+      {
+        showGroupPopup && <CreateGroupPopup />
+      }
+
+      {
+        showUserPopup && <CreateUserPopup />
+      }
     </div>
   );
 };

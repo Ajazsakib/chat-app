@@ -10,7 +10,7 @@ const Sidebar = () => {
       setIsCollapseGroup(!isCollapseGroup);
     }
 
-    if (name == 'directMsg') {
+    if (name == 'oneToOne') {
       setIsCollapseMsg(!isCollapseMsg);
     }
   };
@@ -34,7 +34,7 @@ const Sidebar = () => {
       </div>
       {/* End of username  */}
       <div className="group-parent">
-        <ChattingUser
+        <ChattingUser 
           heading="Groups"
           icon="group"
           name="Group Name"

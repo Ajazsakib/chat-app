@@ -1,5 +1,7 @@
 import React from 'react';
-
+import { openCreateGroupPopup } from '../../features/group/groupSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { openUserCreatePopup } from '../../features/chat/userChatSlice';
 const ChattingUser = ({
   heading,
   icon,
@@ -7,12 +9,28 @@ const ChattingUser = ({
   isCollapse,
   toggleCollapse,
   type,
-}) => {
+}) =>
+{
+  const dispatch = useDispatch()
+
+  const openGroupPopup = (e) =>
+  {
+    e.stopPropagation()
+    dispatch(openCreateGroupPopup())
+  }
+
+  const openUserPopup = (e) =>
+  {
+    e.stopPropagation()
+    dispatch(openUserCreatePopup())
+  }
+
   return (
     <div className="group">
       <div
         className="group-heading"
-        onClick={() => {
+        onClick={() =>
+        {
           toggleCollapse(type);
         }}
       >
@@ -22,7 +40,11 @@ const ChattingUser = ({
           </span>
           {heading}
         </p>
-        <span class="material-symbols-outlined">add</span>
+        {
+          type == "group" ? <span class="material-symbols-outlined add-icon" onClick={openGroupPopup}>add</span> :
+            <span class="material-symbols-outlined add-icon" onClick={openUserPopup}>add</span>
+        }
+
       </div>
       <div className={`group-list ${isCollapse ? 'show' : ''}`}>
         <div className="group-name">

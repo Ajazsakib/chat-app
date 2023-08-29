@@ -24,6 +24,27 @@ export const getProfileDetailAsync = createAsyncThunk(
     }
   }
 );
+
+const token = localStorage.getItem("token")
+export const updateProfileDetailAsync = createAsyncThunk("user/update", async (updateData, thunkAPI) =>
+{
+  try {
+const res = await axios.post(
+      'https://demo-react-ugyr.onrender.com/api/user/update_user',
+      updateData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+     console.log(res, 'update');
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+})
+
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
