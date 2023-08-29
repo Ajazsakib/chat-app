@@ -22,6 +22,7 @@ const ChattingUser = ({
           </span>
           {heading}
         </p>
+        <span class="material-symbols-outlined">add</span>
       </div>
       <div className={`group-list ${isCollapse ? 'show' : ''}`}>
         <div className="group-name">

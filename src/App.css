@@ -188,6 +188,16 @@ body {
 .chat-section .sidebar .group {
     margin-bottom: 16px;
 }
+
+.chat-section .sidebar .group .group-heading {
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff;
+}
+.chat-section .sidebar .group .group-heading span {
+    cursor: pointer;
+}
+
 .chat-section .sidebar .group .group-heading p{
     display: flex;
     align-items: center;

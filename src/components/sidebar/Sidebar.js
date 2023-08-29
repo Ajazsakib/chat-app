@@ -48,7 +48,7 @@ const Sidebar = () => {
           name="Miranda Cohen"
           isCollapse={isCollapseMsg}
           toggleCollapse={toggleCollapse}
-          type="directMsg"
+          type="oneToOne"
         />
       </div>
       <div className="logout">
