@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChattingUser from './ChattingUser';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchChatAsync } from '../../features/chat/userChatSlice';
 const Sidebar = () => {
   const [isCollapseGroup, setIsCollapseGroup] = useState(false);
   const [isCollapseMsg, setIsCollapseMsg] = useState(false);
+  const [allChat, setAllChat] = useState([]);
+  const [groupChat, setGroupChat] = useState([]);
+  const [userChat, setUserChat] = useState([]);
+
+  const getAllChat = useSelector((state) => {
+    return state.userChat.getAllChat;
+  });
+
+  const getAllGroupChat = useSelector((state) => {
+    return state.group.groupChat;
+  });
+
+  const dispatch = useDispatch();
 
   const toggleCollapse = (name) => {
     if (name == 'group') {
@@ -22,6 +38,29 @@ const Sidebar = () => {
     navigate('/login');
   };
 
+  const token = localStorage.getItem('token');
+
+  const getChats = async () => {
+    dispatch(fetchChatAsync());
+
+    // setAllChat(res.data.getChat);
+    const groupChatFilter =
+      getAllChat && getAllChat.filter((chat) => chat.chatType === 'GroupChat');
+    setGroupChat(groupChatFilter);
+    const userChatFilter =
+      getAllChat &&
+      getAllChat.filter((chat) => {
+        return chat.chatType === 'OneToOne';
+      });
+    setUserChat(userChatFilter);
+  };
+
+  useEffect(() => {
+    getChats();
+  }, [getAllChat.length, getAllGroupChat]);
+
+  console.log(getAllChat, '>>>>>>>>>>>>>>>>>>>>>>');
+
   return (
     <>
       <div className="username">
@@ -34,13 +73,14 @@ const Sidebar = () => {
       </div>
       {/* End of username  */}
       <div className="group-parent">
-        <ChattingUser 
+        <ChattingUser
           heading="Groups"
           icon="group"
           name="Group Name"
           isCollapse={isCollapseGroup}
           toggleCollapse={toggleCollapse}
           type="group"
+          chat={groupChat}
         />
         <ChattingUser
           heading="Direct Messages"
@@ -49,6 +89,7 @@ const Sidebar = () => {
           isCollapse={isCollapseMsg}
           toggleCollapse={toggleCollapse}
           type="oneToOne"
+          chat={userChat}
         />
       </div>
       <div className="logout">

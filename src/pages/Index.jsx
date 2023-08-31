@@ -11,8 +11,7 @@ import CreateGroupPopup from '../components/group/CreateGroupPopup';
 import { updateProfileDetailAsync } from '../features/user/userSlice';
 import UpdateUserPopup from '../components/user/UpdateUserPopup';
 import CreateUserPopup from '../components/user/CreateUserPopup';
-const Index = () =>
-{
+const Index = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   // const [userProfile, setUserprofile] = useState({});
@@ -20,15 +19,13 @@ const Index = () =>
   const [editMode, setEditMode] = useState(false);
   const userProfile = useSelector((state) => state.user.userProfile);
 
-  const showGroupPopup = useSelector((state) =>
-  {
-    return state.group.showCreateGroupPopup
-  })
+  const showGroupPopup = useSelector((state) => {
+    return state.group.showCreateGroupPopup;
+  });
 
-  const showUserPopup = useSelector((state) =>
-  {
-    return state.userChat.showUserCreatePopup
-  })
+  const showUserPopup = useSelector((state) => {
+    return state.userChat.showUserCreatePopup;
+  });
 
   const [updateForm, setUpdateform] = useState({
     email: userProfile?.email || '',
@@ -37,15 +34,13 @@ const Index = () =>
 
   const dispatch = useDispatch();
 
-  const renderPage = async () =>
-  {
+  const renderPage = async () => {
     if (!token) {
       navigate('/login');
     }
   };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     renderPage();
   }, []);
 
@@ -62,37 +57,31 @@ const Index = () =>
   //   setProfileUser(res.data.user);
   // };
 
-  useEffect(() =>
-  {
+  useEffect(() => {
     dispatch(getProfileDetailAsync(token));
     dispatch(getProfileSuccess());
   }, [token, dispatch]);
 
-  const openProfilePopup = () =>
-  {
+  const openProfilePopup = () => {
     setShowProfilePopup(true);
   };
 
-  const closeProfilePopup = () =>
-  {
+  const closeProfilePopup = () => {
     setShowProfilePopup(false);
   };
 
-  const handleEditClick = () =>
-  {
+  const handleEditClick = () => {
     setEditMode(true);
   };
 
-  const handleProfileChange = (e) =>
-  {
+  const handleProfileChange = (e) => {
     setUpdateform((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
-  console.log(userProfile, 'userProfile');
-  useEffect(() =>
-  {
+
+  useEffect(() => {
     if (userProfile?.email || userProfile?.phoneNumber) {
       setUpdateform({
         email: userProfile?.email || '',
@@ -101,13 +90,11 @@ const Index = () =>
     }
   }, [userProfile]);
 
-  const handleUpdateClick = async () =>
-  {
+  const handleUpdateClick = async () => {
     // Perform update logic, e.g., update the user profile on the server
-    dispatch(updateProfileDetailAsync(updateForm))
+    dispatch(updateProfileDetailAsync(updateForm));
     setEditMode(false);
     setShowProfilePopup(false);
-
   };
 
   return (
@@ -141,7 +128,7 @@ const Index = () =>
           <ChatFooter />
         </div>
       </div>
-      {showprofilePopup &&
+      {showprofilePopup && (
         <UpdateUserPopup
           updateForm={updateForm}
           editMode={editMode}
@@ -149,15 +136,12 @@ const Index = () =>
           handleUpdateClick={handleUpdateClick}
           handleEditClick={handleEditClick}
           closeProfilePopup={closeProfilePopup}
-        />}
+        />
+      )}
 
-      {
-        showGroupPopup && <CreateGroupPopup />
-      }
+      {showGroupPopup && <CreateGroupPopup />}
 
-      {
-        showUserPopup && <CreateUserPopup />
-      }
+      {showUserPopup && <CreateUserPopup />}
     </div>
   );
 };

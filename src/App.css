@@ -418,6 +418,8 @@ body {
 
 .create-user-popup .create-user-popup-box .user-list {
     margin: 30px 0;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .create-user-popup .create-user-popup-box .user-list .user-box {
