@@ -61,7 +61,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     getChats();
-  }, [getAllChat.length, getAllGroupChat, getAllUserChat]);
+  }, [getAllChat?.length, getAllGroupChat, getAllUserChat]);
 
   return (
     <>
