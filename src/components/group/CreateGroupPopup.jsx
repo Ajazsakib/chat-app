@@ -50,7 +50,7 @@ const CreateGroupPopup = () => {
           </button>
         </div>
         <div className="close-popup" onClick={closeGroupPopup}>
-          <span class="material-symbols-outlined">close</span>
+          <span className="material-symbols-outlined">close</span>
         </div>
       </div>
     </div>

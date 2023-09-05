@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ChatFooter from '../components/sidebar/ChatFooter';
-import ChatHeader from '../components/sidebar/ChatHeader';
+import ChatFooter from '../components/chat/ChatFooter';
+import ChatHeader from '../components/chat/ChatHeader';
 import Sidebar from '../components/sidebar/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import CreateGroupPopup from '../components/group/CreateGroupPopup';
 import { updateProfileDetailAsync } from '../features/user/userSlice';
 import UpdateUserPopup from '../components/user/UpdateUserPopup';
 import CreateUserPopup from '../components/user/CreateUserPopup';
+import ChatBody from '../components/chat/ChatBody';
 const Index = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -101,7 +102,7 @@ const Index = () => {
     <div className="landing-page-section">
       <div className="header-wrap">
         <div className="left">
-          <span class="material-symbols-outlined">arrow_back_ios</span>
+          <span className="material-symbols-outlined">arrow_back_ios</span>
         </div>
         <div className="center">
           <div className="search-box">
@@ -124,7 +125,9 @@ const Index = () => {
         </div>
         <div className="chat-body">
           <ChatHeader />
-          <div className="chat-body"></div>
+          <div className="msg-section">
+            <ChatBody />
+          </div>
           <ChatFooter />
         </div>
       </div>

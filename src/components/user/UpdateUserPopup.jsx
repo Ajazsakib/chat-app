@@ -1,10 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-const UpdateUserPopup = (props) =>
-{
+const UpdateUserPopup = (props) => {
   const {
-    updateForm, editMode, handleProfileChange, handleUpdateClick, handleEditClick, closeProfilePopup
-  } = props
+    updateForm,
+    editMode,
+    handleProfileChange,
+    handleUpdateClick,
+    handleEditClick,
+    closeProfilePopup,
+  } = props;
   return (
     <div className="user-profile-popup">
       <div className="profile-box">
@@ -39,20 +43,17 @@ const UpdateUserPopup = (props) =>
         </div>
 
         <span
-          class="material-symbols-outlined edit-icon"
+          className="material-symbols-outlined edit-icon"
           onClick={handleEditClick}
         >
           border_color
         </span>
       </div>
-      <span
-        className="material-symbols-outlined"
-        onClick={closeProfilePopup}
-      >
+      <span className="material-symbols-outlined" onClick={closeProfilePopup}>
         close
       </span>
     </div>
-  )
-}
+  );
+};
 
-export default UpdateUserPopup
+export default UpdateUserPopup;

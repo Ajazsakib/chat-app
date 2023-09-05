@@ -37,6 +37,7 @@ const CreateUserPopup = () => {
     };
 
     dispatch(createUserChatAsync(userData));
+    dispatch(closeUserCreatePopup());
   };
 
   console.log(searchResult.users);
@@ -57,6 +58,7 @@ const CreateUserPopup = () => {
             searchResult.users.map((user) => {
               return (
                 <div
+                  key={user.id}
                   className="user-box"
                   onClick={() => {
                     createUserChat(user.id, user.username);

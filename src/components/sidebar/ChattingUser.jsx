@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { openCreateGroupPopup } from '../../features/group/groupSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { openUserCreatePopup } from '../../features/chat/userChatSlice';
+import { fetchMsgAsync } from '../../features/chat/userChatSlice';
+import { fetchChatId } from '../../features/chat/userChatSlice';
 import axios from 'axios';
 const ChattingUser = ({
   heading,
@@ -12,6 +14,8 @@ const ChattingUser = ({
   type,
   chat,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const openGroupPopup = (e) => {
@@ -23,6 +27,28 @@ const ChattingUser = ({
     e.stopPropagation();
     dispatch(openUserCreatePopup());
   };
+
+  const chatId = useSelector((state) => {
+    return state.userChat.chatId;
+  });
+
+  const fetchMessage = (id) => {
+    localStorage.setItem('currentChatId', id);
+    dispatch(fetchMsgAsync(id));
+    dispatch(fetchChatId(id));
+  };
+
+  useEffect(() => {
+    const directMessageChat =
+      chat && chat.filter((c) => c.chatType === 'OneToOne');
+
+    if (directMessageChat.length > 0) {
+      const firstDirectMessageChat = directMessageChat[0];
+      const { id } = firstDirectMessageChat;
+
+      fetchMessage(id);
+    }
+  }, [chat]);
 
   return (
     <div className="group">
@@ -40,14 +66,14 @@ const ChattingUser = ({
         </p>
         {type == 'group' ? (
           <span
-            class="material-symbols-outlined add-icon"
+            className="material-symbols-outlined add-icon"
             onClick={openGroupPopup}
           >
             add
           </span>
         ) : (
           <span
-            class="material-symbols-outlined add-icon"
+            className="material-symbols-outlined add-icon"
             onClick={openUserPopup}
           >
             add
@@ -58,11 +84,21 @@ const ChattingUser = ({
         {chat &&
           chat.map((c) => {
             return (
-              <div className="group-name">
+              <div
+                key={c.id}
+                className={`group-name ${chatId === c.id ? 'active' : ''}`}
+              >
                 <div className="icon">
-                  <span class="material-symbols-outlined">{icon}</span>
+                  <span className="material-symbols-outlined">{icon}</span>
                 </div>
-                <div className="text">{c.title}</div>
+                <div
+                  className="text"
+                  onClick={() => {
+                    fetchMessage(c.id);
+                  }}
+                >
+                  {c.title}
+                </div>
               </div>
             );
           })}

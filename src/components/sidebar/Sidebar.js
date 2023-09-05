@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchChatAsync } from '../../features/chat/userChatSlice';
 const Sidebar = () => {
-  const [isCollapseGroup, setIsCollapseGroup] = useState(false);
-  const [isCollapseMsg, setIsCollapseMsg] = useState(false);
+  const [isCollapseGroup, setIsCollapseGroup] = useState(true);
+  const [isCollapseMsg, setIsCollapseMsg] = useState(true);
   const [allChat, setAllChat] = useState([]);
   const [groupChat, setGroupChat] = useState([]);
   const [userChat, setUserChat] = useState([]);
@@ -17,6 +17,10 @@ const Sidebar = () => {
 
   const getAllGroupChat = useSelector((state) => {
     return state.group.groupChat;
+  });
+
+  const getAllUserChat = useSelector((state) => {
+    return state.user.userChat;
   });
 
   const dispatch = useDispatch();
@@ -57,9 +61,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     getChats();
-  }, [getAllChat.length, getAllGroupChat]);
-
-  console.log(getAllChat, '>>>>>>>>>>>>>>>>>>>>>>');
+  }, [getAllChat.length, getAllGroupChat, getAllUserChat]);
 
   return (
     <>

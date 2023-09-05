@@ -16,6 +16,8 @@ export const getProfileDetailAsync = createAsyncThunk(
         }
       );
 
+      thunkAPI.dispatch(successProfile(res.data.user));
+
       return res.data.user; // Assuming you want to return the user data
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -72,6 +74,7 @@ export const createUserChatAsync = createAsyncThunk(
           },
         }
       );
+      thunkAPI.dispatch(success(res.data.getChat));
       console.log(res, 'user response');
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -85,6 +88,7 @@ const userSlice = createSlice({
     userProfile: {},
     query: '',
     searchUserResult: [],
+    userChat: [],
   },
   reducers: {
     getProfileSuccess: (state, action) => {
@@ -93,17 +97,24 @@ const userSlice = createSlice({
     setSearchResults: (state, action) => {
       state.searchUserResult = action.payload;
     },
+    successProfile: (state, action) => {
+      state.userProfile = action.payload;
+    },
+    success: (state, action) => {
+      state.userChat = action.payload;
+    },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getProfileDetailAsync.fulfilled, (state, action) => {
-        state.userProfile = action.payload;
-      })
-      .addCase(getProfileDetailAsync.rejected, (state, action) => {
-        // Handle rejected case, if needed
-      });
-  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(getProfileDetailAsync.fulfilled, (state, action) => {
+  //       state.userProfile = action.payload;
+  //     })
+  //     .addCase(getProfileDetailAsync.rejected, (state, action) => {
+  //       // Handle rejected case, if needed
+  //     });
+  // },
 });
 
-export const { getProfileSuccess, setSearchResults } = userSlice.actions;
+export const { getProfileSuccess, setSearchResults, success, successProfile } =
+  userSlice.actions;
 export default userSlice.reducer;
