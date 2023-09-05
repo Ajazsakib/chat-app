@@ -33,11 +33,10 @@ const ChattingUser = ({
     return state.userChat.chatId;
   });
 
-  const fetchMessage = (id, rcvId) => {
+  const fetchMessage = (id) => {
     localStorage.setItem('currentChatId', id);
     dispatch(fetchMsgAsync(id));
     dispatch(fetchChatId(id));
-    dispatch(setReceiverId(rcvId));
   };
 
   useEffect(() => {
@@ -98,7 +97,7 @@ const ChattingUser = ({
                 <div
                   className="text"
                   onClick={() => {
-                    fetchMessage(c.id, c.userReceiver.id);
+                    fetchMessage(c.id);
                   }}
                 >
                   {c.title}
