@@ -98,6 +98,8 @@ const Index = () => {
     setShowProfilePopup(false);
   };
 
+  console.log(userProfile);
+
   return (
     <div className="landing-page-section">
       <div className="header-wrap">

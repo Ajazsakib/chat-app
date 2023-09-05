@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openUserCreatePopup } from '../../features/chat/userChatSlice';
 import { fetchMsgAsync } from '../../features/chat/userChatSlice';
 import { fetchChatId } from '../../features/chat/userChatSlice';
+import { setReceiverId } from '../../features/chat/userChatSlice';
 import axios from 'axios';
 const ChattingUser = ({
   heading,
@@ -32,10 +33,11 @@ const ChattingUser = ({
     return state.userChat.chatId;
   });
 
-  const fetchMessage = (id) => {
+  const fetchMessage = (id, rcvId) => {
     localStorage.setItem('currentChatId', id);
     dispatch(fetchMsgAsync(id));
     dispatch(fetchChatId(id));
+    dispatch(setReceiverId(rcvId));
   };
 
   useEffect(() => {
@@ -49,6 +51,8 @@ const ChattingUser = ({
       fetchMessage(id);
     }
   }, [chat]);
+
+  console.log(chat);
 
   return (
     <div className="group">
@@ -94,7 +98,7 @@ const ChattingUser = ({
                 <div
                   className="text"
                   onClick={() => {
-                    fetchMessage(c.id);
+                    fetchMessage(c.id, c.userReceiver.id);
                   }}
                 >
                   {c.title}

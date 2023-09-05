@@ -12,12 +12,17 @@ const ChatFooter = () => {
     return state.userChat.chatId;
   });
 
+  const rcvId = useSelector((state) => {
+    return state.userChat.rcvId;
+  });
+
   console.log(chatId);
 
   const sendMessage = (e) => {
     const messageDetails = {
       message: msg,
       chatId: chatId,
+      rcvId: rcvId,
     };
 
     dispatch(sendMessageAsync(messageDetails));

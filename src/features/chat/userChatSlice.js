@@ -70,6 +70,7 @@ const userChatSlice = createSlice({
     getAllChat: [],
     getAllMessages: [],
     chatId: localStorage.getItem('currentChatId') || 0,
+    rcvId: 0,
   },
 
   reducers: {
@@ -88,6 +89,9 @@ const userChatSlice = createSlice({
     fetchMessageAsync: (state, action) => {
       state.getAllMessages = action.payload;
     },
+    setReceiverId: (state, action) => {
+      state.rcvId = action.payload;
+    },
   },
 });
 
@@ -97,5 +101,6 @@ export const {
   success,
   fetchChatId,
   fetchMessageAsync,
+  setReceiverId,
 } = userChatSlice.actions;
 export default userChatSlice.reducer;

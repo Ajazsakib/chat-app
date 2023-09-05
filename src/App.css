@@ -78,7 +78,7 @@ body {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
@@ -339,7 +339,7 @@ body {
 /* Start Design Create group popup */
 .create-group-popup {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     left: 0;
     top: 0;
@@ -395,7 +395,7 @@ body {
 /* Start Design Create UserPopup*/
 .create-user-popup {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     left: 0;
     top: 0;
