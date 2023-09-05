@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { closeUserCreatePopup } from '../../features/chat/userChatSlice';
+import {
+  closeUserCreatePopup,
+  setToggle,
+} from '../../features/chat/userChatSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUserAsync } from '../../features/user/userSlice';
 import { setSearchResults } from '../../features/user/userSlice';
@@ -38,6 +41,7 @@ const CreateUserPopup = () => {
 
     dispatch(createUserChatAsync(userData));
     dispatch(closeUserCreatePopup());
+    dispatch(setToggle());
   };
 
   console.log(searchResult.users);

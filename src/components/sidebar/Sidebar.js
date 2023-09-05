@@ -23,6 +23,10 @@ const Sidebar = () => {
     return state.user.userChat;
   });
 
+  const toggleState = useSelector((state) => {
+    return state.userChat.toggle;
+  });
+
   const dispatch = useDispatch();
 
   const toggleCollapse = (name) => {
@@ -61,7 +65,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     getChats();
-  }, [getAllChat?.length, getAllGroupChat, getAllUserChat]);
+  }, [getAllChat?.length, getAllGroupChat, getAllUserChat, toggleState]);
 
   return (
     <>

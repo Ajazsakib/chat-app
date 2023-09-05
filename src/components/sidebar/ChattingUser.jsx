@@ -33,6 +33,8 @@ const ChattingUser = ({
     return state.userChat.chatId;
   });
 
+  const userProfile = useSelector((state) => state.user.userProfile);
+
   const fetchMessage = (id) => {
     localStorage.setItem('currentChatId', id);
     dispatch(fetchMsgAsync(id));
@@ -43,7 +45,7 @@ const ChattingUser = ({
     const directMessageChat =
       chat && chat.filter((c) => c.chatType === 'OneToOne');
 
-    if (directMessageChat.length > 0) {
+    if (directMessageChat && directMessageChat.length > 0) {
       const firstDirectMessageChat = directMessageChat[0];
       const { id } = firstDirectMessageChat;
 
@@ -100,7 +102,7 @@ const ChattingUser = ({
                     fetchMessage(c.id);
                   }}
                 >
-                  {c.title}
+                  {userProfile?.username === c.title ? c.createdBy : c.title}
                 </div>
               </div>
             );

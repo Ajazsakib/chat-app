@@ -22,7 +22,6 @@ const ChatFooter = () => {
     const messageDetails = {
       message: msg,
       chatId: chatId,
-      rcvId: rcvId,
     };
 
     dispatch(sendMessageAsync(messageDetails));

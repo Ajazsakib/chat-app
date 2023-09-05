@@ -66,6 +66,7 @@ export const sendMessageAsync = createAsyncThunk(
 const userChatSlice = createSlice({
   name: 'userChat',
   initialState: {
+    toggle: true,
     showUserCreatePopup: false,
     getAllChat: [],
     getAllMessages: [],
@@ -92,6 +93,9 @@ const userChatSlice = createSlice({
     setReceiverId: (state, action) => {
       state.rcvId = action.payload;
     },
+    setToggle: (state, _action) => {
+      state.toggle = !state.toggle;
+    },
   },
 });
 
@@ -102,5 +106,6 @@ export const {
   fetchChatId,
   fetchMessageAsync,
   setReceiverId,
+  setToggle,
 } = userChatSlice.actions;
 export default userChatSlice.reducer;
