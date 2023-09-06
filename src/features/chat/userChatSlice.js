@@ -36,7 +36,7 @@ export const fetchMsgAsync = createAsyncThunk(
           },
         }
       );
-      console.log(res.data);
+
       thunkAPI.dispatch(fetchMessageAsync(res.data.msgInfo));
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -63,6 +63,27 @@ export const sendMessageAsync = createAsyncThunk(
   }
 );
 
+export const addMemberInGroupAsync = createAsyncThunk(
+  'userChat/chat',
+  async (data, thunkAPI) => {
+    try {
+      const res = axios.post(
+        ' https://demo-react-ugyr.onrender.com/api/chat/addUsers',
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(res, '>>>>>>>>>>>>>');
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const userChatSlice = createSlice({
   name: 'userChat',
   initialState: {
@@ -72,6 +93,9 @@ const userChatSlice = createSlice({
     getAllMessages: [],
     chatId: localStorage.getItem('currentChatId') || 0,
     rcvId: 0,
+    chatIsGroup: false,
+    chatIsOneToOne: false,
+    groupChatTitle: '',
   },
 
   reducers: {
@@ -96,6 +120,15 @@ const userChatSlice = createSlice({
     setToggle: (state, _action) => {
       state.toggle = !state.toggle;
     },
+    chatIsGroup: (state) => {
+      state.chatIsGroup = true;
+    },
+    chatIsOneToOne: (state) => {
+      state.chatIsGroup = false;
+    },
+    setGroupChatTitle: (state, action) => {
+      state.groupChatTitle = action.payload;
+    },
   },
 });
 
@@ -107,5 +140,8 @@ export const {
   fetchMessageAsync,
   setReceiverId,
   setToggle,
+  chatIsGroup,
+  chatIsOneToOne,
+  setGroupChatTitle,
 } = userChatSlice.actions;
 export default userChatSlice.reducer;

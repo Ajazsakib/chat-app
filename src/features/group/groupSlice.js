@@ -24,12 +24,38 @@ export const createGroupAsync = createAsyncThunk(
   }
 );
 
+export const fetchGroupMemberAsync = createAsyncThunk(
+  'group/fetch',
+  async (chatId, thunkAPI) => {
+    try {
+      const res = await axios.get(
+        `https://demo-react-ugyr.onrender.com/api/chat/getGroupUser?id=${chatId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data.data);
+      thunkAPI.dispatch(fetchMemberAsync(res.data.data));
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const groupSlice = createSlice({
   name: 'group',
   initialState: {
     showCreateGroupPopup: false,
-    hideCreateGroupPopup: false,
+
+    showAddmemberPopup: false,
+
+    showMembarInGroup: false,
+
     groupChat: [],
+
+    memberInGroup: [],
   },
   reducers: {
     openCreateGroupPopup: (state, action) => {
@@ -41,9 +67,33 @@ const groupSlice = createSlice({
     success: (state, action) => {
       state.groupChat = action.payload;
     },
+    openAddMemberPopup: (state) => {
+      state.showAddmemberPopup = true;
+    },
+    closeAddMemberPopup: (state) => {
+      state.showAddmemberPopup = false;
+    },
+    openMemberInGroupPopup: (state) => {
+      state.showMembarInGroup = true;
+    },
+    closeMemberInGroupPopup: (state) => {
+      state.showMembarInGroup = false;
+    },
+    fetchMemberAsync: (state, action) => {
+      state.memberInGroup = action.payload;
+    },
   },
 });
 
-export const { openCreateGroupPopup, closeCreateGroupPopup, success } =
-  groupSlice.actions;
+export const {
+  openCreateGroupPopup,
+  closeCreateGroupPopup,
+  success,
+  openAddMemberPopup,
+  closeAddMemberPopup,
+  openMemberInGroupPopup,
+  closeMemberInGroupPopup,
+  fetchMemberAsync,
+  memberInGroup,
+} = groupSlice.actions;
 export default groupSlice.reducer;

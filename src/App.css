@@ -82,7 +82,8 @@ body {
     background: rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
+    z-index: 4;
 }
 
 .profile-box {
@@ -127,6 +128,7 @@ body {
     position: fixed;
     width: 100%;
     top: 0;
+    z-index: 2;
 }
 
 .landing-page-section .header-wrap .left {
@@ -274,22 +276,46 @@ body {
 
 .chat-section .chat-body {
     width: calc(100% - 20%);
-    margin-left: 19%;
+    margin-left: 12%;
 }
 
 .chat-header {
-    width: 100%;
+    width: 80%;
     height: 50px;
     padding: 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid #ededed;
+    position: fixed;
+    left: 20%;
+    top: 40px;
+    z-index: 2;
+    background-color: #ffffff;
 }
 
 .chat-header .img {
     width: 30px;
     height: 30px;
     margin-right: 16px;
+}
+
+.chat-header .icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.chat-header .icon .view-member {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: rgba(0,0,0, 0.2);
+    border-radius: 6px;
+    margin-left: 16px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
 }
 
 .chat-header .img img {
@@ -305,9 +331,10 @@ body {
     width: calc(100% - 20%);
     position: fixed;
     right: -16px;
-    bottom: 16px;
+    bottom: 0;
     display: flex;
-
+    background-color: #ffffff;
+    z-index: 2;
 }
 
 .chat-footer .input-chat {
@@ -347,6 +374,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 4;
 }
 
 .create-group-popup .create-group-popup-box {
@@ -403,6 +431,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3;
 }
 
 .create-user-popup .create-user-popup-box {
@@ -445,6 +474,10 @@ body {
     display: flex;
     flex-direction: column;
     padding: 30px;
+    position: relative;
+    left: 8%;
+    z-index: 1;
+    top: 100px;
 }
 
 .chat-section .msg-section .msg-box {

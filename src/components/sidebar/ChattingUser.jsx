@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { openCreateGroupPopup } from '../../features/group/groupSlice';
+import {
+  fetchGroupMemberAsync,
+  openCreateGroupPopup,
+} from '../../features/group/groupSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { openUserCreatePopup } from '../../features/chat/userChatSlice';
 import { fetchMsgAsync } from '../../features/chat/userChatSlice';
 import { fetchChatId } from '../../features/chat/userChatSlice';
 import { setReceiverId } from '../../features/chat/userChatSlice';
+import {
+  chatIsGroup,
+  chatIsOneToOne,
+  setGroupChatTitle,
+} from '../../features/chat/userChatSlice';
 import axios from 'axios';
 const ChattingUser = ({
   heading,
@@ -35,10 +43,19 @@ const ChattingUser = ({
 
   const userProfile = useSelector((state) => state.user.userProfile);
 
-  const fetchMessage = (id) => {
+  const fetchMessage = (id, chatType, title) => {
     localStorage.setItem('currentChatId', id);
     dispatch(fetchMsgAsync(id));
     dispatch(fetchChatId(id));
+
+    if (chatType === 'GroupChat') {
+      dispatch(chatIsGroup());
+    } else {
+      dispatch(chatIsOneToOne());
+    }
+
+    dispatch(setGroupChatTitle(title));
+    dispatch(fetchGroupMemberAsync(chatId));
   };
 
   useEffect(() => {
@@ -99,7 +116,7 @@ const ChattingUser = ({
                 <div
                   className="text"
                   onClick={() => {
-                    fetchMessage(c.id);
+                    fetchMessage(c.id, c.chatType, c.title);
                   }}
                 >
                   {userProfile?.username === c.title ? c.createdBy : c.title}

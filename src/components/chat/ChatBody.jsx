@@ -6,8 +6,6 @@ const ChatBody = () => {
     return state.userChat.getAllMessages;
   });
 
-  console.log(getAllMessages, '>>>>>>>>>>>>>');
-
   return (
     <>
       {getAllMessages &&

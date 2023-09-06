@@ -12,6 +12,8 @@ import { updateProfileDetailAsync } from '../features/user/userSlice';
 import UpdateUserPopup from '../components/user/UpdateUserPopup';
 import CreateUserPopup from '../components/user/CreateUserPopup';
 import ChatBody from '../components/chat/ChatBody';
+import AddMemberPopup from '../components/group/AddMemberPopup';
+import MemberInGroupPopup from '../components/group/MemberInGroupPopup';
 const Index = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -26,6 +28,14 @@ const Index = () => {
 
   const showUserPopup = useSelector((state) => {
     return state.userChat.showUserCreatePopup;
+  });
+
+  const showAddmemberPopup = useSelector((state) => {
+    return state.group.showAddmemberPopup;
+  });
+
+  const showMembarInGroup = useSelector((state) => {
+    return state.group.showMembarInGroup;
   });
 
   const [updateForm, setUpdateform] = useState({
@@ -98,8 +108,6 @@ const Index = () => {
     setShowProfilePopup(false);
   };
 
-  console.log(userProfile);
-
   return (
     <div className="landing-page-section">
       <div className="header-wrap">
@@ -147,6 +155,9 @@ const Index = () => {
       {showGroupPopup && <CreateGroupPopup />}
 
       {showUserPopup && <CreateUserPopup />}
+      {showAddmemberPopup && <AddMemberPopup />}
+
+      {showMembarInGroup && <MemberInGroupPopup />}
     </div>
   );
 };
