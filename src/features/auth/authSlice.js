@@ -24,7 +24,9 @@ export const loginUserAsync = createAsyncThunk(
       );
       localStorage.setItem('token', res.data.jwtToken);
     } catch (error) {
-      thunkAPI.dispatch(loginFailure('msggg'));
+      thunkAPI.dispatch(
+        loginFailure('Login failed. Please check your credentials.')
+      );
       return thunkAPI.rejectWithValue(error.message);
     }
   }
