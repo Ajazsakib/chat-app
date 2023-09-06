@@ -14,6 +14,10 @@ const Login = () => {
     password: '',
   };
 
+  const errorMessage = useSelector((state) => {
+    return state.auth.errorMessage;
+  });
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -27,7 +31,7 @@ const Login = () => {
       dispatch(loginSuccess());
     } catch (err) {
       console.log('Error in login', err);
-      dispatch(loginFailure());
+      dispatch(loginFailure('Some thing wrong went'));
     }
 
     setTimeout(() => {
@@ -57,6 +61,9 @@ const Login = () => {
         <div className="form-wrap">
           <div className="main-heading">
             <h3>Login</h3>
+            {errorMessage ? (
+              <h5 style={{ color: '#c20302' }}>{errorMessage}</h5>
+            ) : null}
           </div>
           <div className="form-box">
             <div className="form-group">
