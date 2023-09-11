@@ -4,7 +4,11 @@ import ChatHeader from '../components/chat/ChatHeader';
 import Sidebar from '../components/sidebar/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfileDetailAsync } from '../features/user/userSlice';
+import {
+  createUserChatAsync,
+  getProfileDetailAsync,
+  searchUserAsync,
+} from '../features/user/userSlice';
 import axios from 'axios';
 import { getProfileSuccess } from '../features/user/userSlice';
 import CreateGroupPopup from '../components/group/CreateGroupPopup';
@@ -14,6 +18,11 @@ import CreateUserPopup from '../components/user/CreateUserPopup';
 import ChatBody from '../components/chat/ChatBody';
 import AddMemberPopup from '../components/group/AddMemberPopup';
 import MemberInGroupPopup from '../components/group/MemberInGroupPopup';
+import Popup from '../components/popup/Popup';
+import {
+  closeUserCreatePopup,
+  setToggle,
+} from '../features/chat/userChatSlice';
 const Index = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -21,6 +30,7 @@ const Index = () => {
   const [showprofilePopup, setShowProfilePopup] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const userProfile = useSelector((state) => state.user.userProfile);
+  const [groupName, setGroupName] = useState('');
 
   const showGroupPopup = useSelector((state) => {
     return state.group.showCreateGroupPopup;
@@ -46,9 +56,11 @@ const Index = () => {
   const dispatch = useDispatch();
 
   const renderPage = async () => {
-    if (!token) {
-      navigate('/login');
-    }
+    setTimeout(() => {
+      if (!token) {
+        navigate('/login');
+      }
+    }, 1000);
   };
 
   useEffect(() => {
@@ -108,6 +120,45 @@ const Index = () => {
     setShowProfilePopup(false);
   };
 
+  // Handle Popup Code
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const searchResult = useSelector((state) => {
+    return state.user.searchUserResult;
+  });
+
+  const handleSearchChange = (event) => {
+    const query = event.target.value;
+    console.log(query, 'query');
+    setSearchQuery(query);
+    if (query !== '' || query !== undefined) {
+      dispatch(searchUserAsync(query));
+    }
+  };
+
+  const createUserChat = (id, name) => {
+    console.log(typeof id);
+    const userData = {
+      chatType: 'OneToOne',
+      userIds: [id],
+      title: name,
+    };
+
+    dispatch(createUserChatAsync(userData));
+    dispatch(closeUserCreatePopup());
+    dispatch(setToggle());
+  };
+  const closePopup = (type) => {
+    if (type === 'createSingleChat') {
+      dispatch(closeUserCreatePopup());
+    }
+  };
+
+  const handleGroupChange = (e) => {
+    setGroupName(e.target.value);
+  };
+
   return (
     <div className="landing-page-section">
       <div className="header-wrap">
@@ -152,12 +203,26 @@ const Index = () => {
         />
       )}
 
-      {showGroupPopup && <CreateGroupPopup />}
+      {showGroupPopup && (
+        <Popup
+          type="createGroupChat"
+          groupName={groupName}
+          handleGroupChange={handleGroupChange}
+        />
+      )}
 
-      {showUserPopup && <CreateUserPopup />}
-      {showAddmemberPopup && <AddMemberPopup />}
+      {showUserPopup && (
+        <Popup
+          handleSearchChange={handleSearchChange}
+          searchResult={searchResult}
+          createUserChat={createUserChat}
+          closePopup={closePopup}
+          type="createSingleChat"
+        />
+      )}
+      {/* {showAddmemberPopup && <AddMemberPopup />} */}
 
-      {showMembarInGroup && <MemberInGroupPopup />}
+      {/* {showMembarInGroup && <MemberInGroupPopup />} */}
     </div>
   );
 };
