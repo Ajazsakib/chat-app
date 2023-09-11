@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { openCommonPopup } from '../../features/chat/userChatSlice';
 import {
   openAddMemberPopup,
   closeAddMemberPopup,
@@ -28,12 +29,12 @@ const ChatHeader = () => {
     return state.userChat.groupChatTitle;
   });
 
-  const handleAddMemberPopup = () => {
-    dispatch(openAddMemberPopup());
+  const handleAddMemberPopup = (name) => {
+    dispatch(openCommonPopup(name));
   };
 
-  const handleMemberInGroupPopup = () => {
-    dispatch(openMemberInGroupPopup());
+  const handleMemberInGroupPopup = (name) => {
+    dispatch(openCommonPopup(name));
   };
 
   return (
@@ -43,11 +44,18 @@ const ChatHeader = () => {
         <div className="icon">
           <span
             class="material-symbols-outlined"
-            onClick={handleAddMemberPopup}
+            onClick={() => {
+              handleAddMemberPopup('addMember');
+            }}
           >
             add
           </span>
-          <span className="view-member" onClick={handleMemberInGroupPopup}>
+          <span
+            className="view-member"
+            onClick={() => {
+              handleMemberInGroupPopup('viewMember');
+            }}
+          >
             {memberInGroup.length}
           </span>
         </div>

@@ -4,7 +4,7 @@ import {
   openCreateGroupPopup,
 } from '../../features/group/groupSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { openUserCreatePopup } from '../../features/chat/userChatSlice';
+import { openCommonPopup } from '../../features/chat/userChatSlice';
 import { fetchMsgAsync } from '../../features/chat/userChatSlice';
 import { fetchChatId } from '../../features/chat/userChatSlice';
 import { setReceiverId } from '../../features/chat/userChatSlice';
@@ -27,14 +27,13 @@ const ChattingUser = ({
 
   const dispatch = useDispatch();
 
-  const openGroupPopup = (e) => {
-    e.stopPropagation();
-    dispatch(openCreateGroupPopup());
-  };
+  // const openPopup = (e) => {
+  //   e.stopPropagation();
+  //   dispatch(openCreateGroupPopup());
+  // };
 
-  const openUserPopup = (e) => {
-    e.stopPropagation();
-    dispatch(openUserCreatePopup());
+  const openPopup = (name) => {
+    dispatch(openCommonPopup(name));
   };
 
   const chatId = useSelector((state) => {
@@ -89,14 +88,20 @@ const ChattingUser = ({
         {type == 'group' ? (
           <span
             className="material-symbols-outlined add-icon"
-            onClick={openGroupPopup}
+            onClick={(e) => {
+              e.stopPropagation();
+              openPopup('createGroup');
+            }}
           >
             add
           </span>
         ) : (
           <span
             className="material-symbols-outlined add-icon"
-            onClick={openUserPopup}
+            onClick={(e) => {
+              e.stopPropagation();
+              openPopup('createUser');
+            }}
           >
             add
           </span>

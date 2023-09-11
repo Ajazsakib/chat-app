@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUserAsync } from '../../features/user/userSlice';
 import {
+  closeCommonPopup,
   closeUserCreatePopup,
   setToggle,
 } from '../../features/chat/userChatSlice';
@@ -41,44 +42,39 @@ const AddMemberPopup = () => {
     };
 
     dispatch(addMemberInGroupAsync(data));
-    dispatch(closeAddMemberPopup());
+    dispatch(closeCommonPopup());
   };
 
   return (
-    <div className="create-user-popup">
-      <div className="create-user-popup-box">
-        <h3>Add Member In Group</h3>
-        <div className="search-user">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search User..."
-            onChange={handleSearchChange}
-          />
-          <span className="material-symbols-outlined">search</span>
-        </div>
-        <div className="user-list">
-          {searchResult.users &&
-            searchResult.users.map((user) => {
-              return (
-                <div key={user.id} className="user-box">
-                  <div
-                    className="username"
-                    onClick={() => {
-                      addMemberInGroup(user.id);
-                    }}
-                  >
-                    {user.username}
-                  </div>
-                </div>
-              );
-            })}
-        </div>
-        <div className="close-popup" onClick={closeUserPopup}>
-          <span className="material-symbols-outlined">close</span>
-        </div>
+    <>
+      <h3>Add Member In Group</h3>
+      <div className="search-user">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search User..."
+          onChange={handleSearchChange}
+        />
+        <span className="material-symbols-outlined">search</span>
       </div>
-    </div>
+      <div className="user-list">
+        {searchResult.users &&
+          searchResult.users.map((user) => {
+            return (
+              <div key={user.id} className="user-box">
+                <div
+                  className="username"
+                  onClick={() => {
+                    addMemberInGroup(user.id);
+                  }}
+                >
+                  {user.username}
+                </div>
+              </div>
+            );
+          })}
+      </div>
+    </>
   );
 };
 

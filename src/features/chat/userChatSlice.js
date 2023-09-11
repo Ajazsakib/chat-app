@@ -88,7 +88,7 @@ const userChatSlice = createSlice({
   name: 'userChat',
   initialState: {
     toggle: true,
-    showUserCreatePopup: false,
+    showPopup: false,
     getAllChat: [],
     getAllMessages: [],
     chatId: localStorage.getItem('currentChatId') || 0,
@@ -99,11 +99,11 @@ const userChatSlice = createSlice({
   },
 
   reducers: {
-    openUserCreatePopup: (state) => {
-      state.showUserCreatePopup = true;
+    openCommonPopup: (state, action) => {
+      state.showPopup = action.payload;
     },
-    closeUserCreatePopup: (state) => {
-      state.showUserCreatePopup = false;
+    closeCommonPopup: (state) => {
+      state.showPopup = '';
     },
     success: (state, action) => {
       state.getAllChat = action.payload;
@@ -133,8 +133,8 @@ const userChatSlice = createSlice({
 });
 
 export const {
-  openUserCreatePopup,
-  closeUserCreatePopup,
+  openCommonPopup,
+  closeCommonPopup,
   success,
   fetchChatId,
   fetchMessageAsync,

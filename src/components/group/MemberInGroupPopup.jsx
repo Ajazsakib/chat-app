@@ -24,25 +24,23 @@ const MemberInGroupPopup = () => {
   });
 
   return (
-    <div className="create-user-popup">
-      <div className="create-user-popup-box">
-        <h3>Group member</h3>
+    <>
+      <h3>Group member</h3>
 
-        <div className="user-list">
-          {memberInGroup &&
-            memberInGroup.map((user) => {
-              return (
-                <div key={user.id} className="user-box">
-                  <div className="username">{user.username}</div>
-                </div>
-              );
-            })}
-        </div>
-        <div className="close-popup" onClick={closeUserPopup}>
-          <span className="material-symbols-outlined">close</span>
-        </div>
+      <div className="user-list">
+        {memberInGroup &&
+          memberInGroup.map((user) => {
+            return (
+              <div key={user.id} className="user-box">
+                <div className="username">{user.username}</div>
+              </div>
+            );
+          })}
       </div>
-    </div>
+      <div className="close-popup" onClick={closeUserPopup}>
+        <span className="material-symbols-outlined">close</span>
+      </div>
+    </>
   );
 };
 

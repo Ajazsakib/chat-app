@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  closeUserCreatePopup,
-  setToggle,
-} from '../../features/chat/userChatSlice';
+import { closeCommonPopup, setToggle } from '../../features/chat/userChatSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUserAsync } from '../../features/user/userSlice';
 import { setSearchResults } from '../../features/user/userSlice';
@@ -18,8 +15,8 @@ const CreateUserPopup = () => {
     return state.user.searchUserResult;
   });
 
-  const closeUserPopup = () => {
-    dispatch(closeUserCreatePopup());
+  const closePopup = () => {
+    dispatch(closeCommonPopup());
   };
 
   const handleSearchChange = (event) => {
@@ -40,45 +37,39 @@ const CreateUserPopup = () => {
     };
 
     dispatch(createUserChatAsync(userData));
-    dispatch(closeUserCreatePopup());
+    dispatch(closeCommonPopup());
     dispatch(setToggle());
   };
 
   console.log(searchResult.users);
   return (
-    <div className="create-user-popup">
-      <div className="create-user-popup-box">
-        <div className="search-user">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search User..."
-            onChange={handleSearchChange}
-          />
-          <span className="material-symbols-outlined">search</span>
-        </div>
-        <div className="user-list">
-          {searchResult.users &&
-            searchResult.users.map((user) => {
-              return (
-                <div
-                  key={user.id}
-                  className="user-box"
-                  onClick={() => {
-                    createUserChat(user.id, user.username);
-                  }}
-                >
-                  <div className="username">{user.username}</div>
-                </div>
-              );
-            })}
-        </div>
-
-        <div className="close-popup" onClick={closeUserPopup}>
-          <span className="material-symbols-outlined">close</span>
-        </div>
+    <>
+      <div className="search-user">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search User..."
+          onChange={handleSearchChange}
+        />
+        <span className="material-symbols-outlined">search</span>
       </div>
-    </div>
+      <div className="user-list">
+        {searchResult.users &&
+          searchResult.users.map((user) => {
+            return (
+              <div
+                key={user.id}
+                className="user-box"
+                onClick={() => {
+                  createUserChat(user.id, user.username);
+                }}
+              >
+                <div className="username">{user.username}</div>
+              </div>
+            );
+          })}
+      </div>
+    </>
   );
 };
 

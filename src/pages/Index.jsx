@@ -19,10 +19,27 @@ import ChatBody from '../components/chat/ChatBody';
 import AddMemberPopup from '../components/group/AddMemberPopup';
 import MemberInGroupPopup from '../components/group/MemberInGroupPopup';
 import Popup from '../components/popup/Popup';
-import {
-  closeUserCreatePopup,
-  setToggle,
-} from '../features/chat/userChatSlice';
+import { closeCommonPopup, setToggle } from '../features/chat/userChatSlice';
+
+const popupData = [
+  {
+    name: 'createUser',
+    component: CreateUserPopup,
+  },
+  {
+    name: 'createGroup',
+    component: CreateGroupPopup,
+  },
+  {
+    name: 'addMember',
+    component: AddMemberPopup,
+  },
+  {
+    name: 'viewMember',
+    component: MemberInGroupPopup,
+  },
+];
+
 const Index = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -47,6 +64,15 @@ const Index = () => {
   const showMembarInGroup = useSelector((state) => {
     return state.group.showMembarInGroup;
   });
+
+  const showPopup = useSelector((state) => {
+    return state.userChat.showPopup;
+  });
+
+  const GetComponentToShow =
+    popupData.find((popup) => {
+      return popup.name === showPopup;
+    })?.component || null;
 
   const [updateForm, setUpdateform] = useState({
     email: userProfile?.email || '',
@@ -146,12 +172,12 @@ const Index = () => {
     };
 
     dispatch(createUserChatAsync(userData));
-    dispatch(closeUserCreatePopup());
+    dispatch(closeCommonPopup());
     dispatch(setToggle());
   };
   const closePopup = (type) => {
     if (type === 'createSingleChat') {
-      dispatch(closeUserCreatePopup());
+      dispatch(closeCommonPopup());
     }
   };
 
@@ -203,26 +229,9 @@ const Index = () => {
         />
       )}
 
-      {showGroupPopup && (
-        <Popup
-          type="createGroupChat"
-          groupName={groupName}
-          handleGroupChange={handleGroupChange}
-        />
+      {showPopup && (
+        <Popup>{GetComponentToShow && <GetComponentToShow />}</Popup>
       )}
-
-      {showUserPopup && (
-        <Popup
-          handleSearchChange={handleSearchChange}
-          searchResult={searchResult}
-          createUserChat={createUserChat}
-          closePopup={closePopup}
-          type="createSingleChat"
-        />
-      )}
-      {/* {showAddmemberPopup && <AddMemberPopup />} */}
-
-      {/* {showMembarInGroup && <MemberInGroupPopup />} */}
     </div>
   );
 };
